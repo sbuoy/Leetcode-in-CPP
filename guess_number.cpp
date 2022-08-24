@@ -4,6 +4,8 @@
 #include <ctime>
 #include <vector>
 #include <algorithm>
+#include <chrono>
+#include <thread>
 
 using namespace std;
 
@@ -18,7 +20,7 @@ int main() {
     long max = rand() % (rand()) + 1;
     num = rand() % (max) + 1;
     int x = num;
-    int start = clock();
+    auto start = std::chrono::system_clock::now();
     double time_diff;
     std::vector<int> guesses_array;
 
@@ -51,12 +53,15 @@ int main() {
         }
      } while (guess != num && tries > 0);
 
-     time_diff = (clock() - start) / (double)(CLOCKS_PER_SEC);
+     const auto end = std::chrono::system_clock::now();
+     const auto duration = (end - start);
+     std::chrono::duration<double> elapsed_time = (end - start);
+     std::time_t end_time = std::chrono::system_clock::to_time_t(end);
 
      if (tries == 0 && guess != num)
          printf("The correct number was %d!\nBetter luck next time\n", num);
 
-     printf("It took you %f second(s) to finish the game!\n\n", time_diff);
+     std::cout << "It took you " << elapsed_time.count() << " second(s) to finish the game!\n\n";
 
      return 0;
 }

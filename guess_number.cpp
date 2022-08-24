@@ -55,13 +55,29 @@ int main() {
 
      const auto end = std::chrono::system_clock::now();
      const auto duration = (end - start);
-     std::chrono::duration<double> elapsed_time = (end - start);
+     std::chrono::duration<float> elapsed_time = (end - start);
+     std::chrono::duration<int, std::nano> ns;
+     std::chrono::duration<int, std::micro> us;
+     std::chrono::duration<int, std::milli> ms;
+     int yrs = (elapsed_time.count() / 31556952);
+     int mos = (elapsed_time.count() / 2629746);
+     int wks = (elapsed_time.count() / 604800);
+     int days = (elapsed_time.count() / 86400);
+     int hrs = (elapsed_time.count() / 3600);
+     int min = (elapsed_time.count() / 60);
+     int sec = int(elapsed_time.count()) % 60;
      std::time_t end_time = std::chrono::system_clock::to_time_t(end);
 
      if (tries == 0 && guess != num)
          printf("The correct number was %d!\nBetter luck next time\n", num);
 
      std::cout << "It took you " << elapsed_time.count() << " second(s) to finish the game!\n\n";
+     std::cout << "hrs:" << hrs << "\n";
+     std::cout << "min:" << min << "\n";
+     std::cout << "sec:" << sec << "\n";
+     std::cout << "ms:" << (std::chrono::duration_cast<std::chrono::milliseconds>(elapsed_time).count() % 1000) << "\n";
+     std::cout << "us:" << (std::chrono::duration_cast<std::chrono::microseconds>(elapsed_time).count() % 1000000) << "\n";
+     std::cout << "ns:" << (std::chrono::duration_cast<std::chrono::nanoseconds>(elapsed_time).count() % 1000000000) << "\n";
 
      return 0;
 }
